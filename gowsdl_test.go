@@ -77,13 +77,13 @@ func TestAttributeRef(t *testing.T) {
 	}
 
 	expected := `type ResponseStatus struct {
-	Status	[]struct {
+	Status_	[]struct {
 		Value	string
 
-		Code	string	` + "`" + `xml:"code,attr,omitempty"` + "`" + `
+		Code_	string	` + "`" + `xml:"code,attr,omitempty"` + "`" + `
 	}	` + "`" + `xml:"status,omitempty"` + "`" + `
 
-	ResponseCode	string	` + "`" + `xml:"responseCode,attr,omitempty"` + "`" + `
+	ResponseCode_	string	` + "`" + `xml:"responseCode,attr,omitempty"` + "`" + `
 }`
 	if actual != expected {
 		t.Error("got " + actual + " want " + expected)
@@ -144,7 +144,7 @@ func TestEnumerationsGeneratedCorrectly(t *testing.T) {
 		}
 	}
 	enumStringTest(t, "chromedata.wsdl", "DriveTrainFrontWheelDrive", "DriveTrain", "Front Wheel Drive")
-	enumStringTest(t, "vboxweb.wsdl", "SettingsVersionV1_14", "SettingsVersion", "v1_14")
+	enumStringTest(t, "vboxweb.wsdl", "SettingsVersionV1_14_", "SettingsVersion", "v1_14")
 
 }
 
