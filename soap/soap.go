@@ -6,8 +6,11 @@ import (
 	"crypto/tls"
 	"encoding/xml"
 	"fmt"
+	"io"
+	"log"
 	"net"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -300,6 +303,8 @@ func (s *Client) call(ctx context.Context, soapAction string, request, response 
 		return err
 	}
 
+	log.Printf("req: %s\n", buffer)
+
 	req, err := http.NewRequest("POST", s.url, buffer)
 	if err != nil {
 		return err
@@ -342,6 +347,8 @@ func (s *Client) call(ctx context.Context, soapAction string, request, response 
 		return err
 	}
 	defer res.Body.Close()
+
+	io.Copy(os.Stdout, res.Body)
 
 	respEnvelope := new(SOAPEnvelope)
 	respEnvelope.Body = SOAPBody{Content: response}
