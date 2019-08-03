@@ -135,6 +135,14 @@ type XSDElement struct {
 	ComplexType *XSDComplexType `xml:"complexType"` //local
 	SimpleType  *XSDSimpleType  `xml:"simpleType"`
 	Groups      []*XSDGroup     `xml:"group"`
+	Java        string          `xml:"java,attr"`
+}
+
+func (elm XSDElement) JavaPrefix() string {
+	if elm.Name == "req" && elm.Java != "" {
+		return elm.Java + " "
+	}
+	return ""
 }
 
 // XSDComplexType represents a Schema complex type.
