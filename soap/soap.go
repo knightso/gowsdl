@@ -10,7 +10,6 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -348,7 +347,9 @@ func (s *Client) call(ctx context.Context, soapAction string, request, response 
 	}
 	defer res.Body.Close()
 
-	io.Copy(os.Stdout, res.Body)
+	resbuf := bytes.NewBuffer(nil)
+	io.Copy(resbuf, res.Body)
+	log.Println(resbuf.String())
 
 	respEnvelope := new(SOAPEnvelope)
 	respEnvelope.Body = SOAPBody{Content: response}
@@ -360,9 +361,9 @@ func (s *Client) call(ctx context.Context, soapAction string, request, response 
 
 	var dec SOAPDecoder
 	if mtomBoundary != "" {
-		dec = newMtomDecoder(res.Body, mtomBoundary)
+		dec = newMtomDecoder(resbuf, mtomBoundary)
 	} else {
-		dec = xml.NewDecoder(res.Body)
+		dec = xml.NewDecoder(resbuf)
 	}
 
 	if err := dec.Decode(respEnvelope); err != nil {
