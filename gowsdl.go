@@ -539,7 +539,9 @@ func makePublic(identifier string) string {
 	uc := unicode.ToUpper(field[0])
 	if field[0] != uc {
 		field[0] = uc
-		field = append(field, '_')
+		if field[len(field)-1] != '_' {
+			field = append(field, '_')
+		}
 	}
 
 	return string(field)
